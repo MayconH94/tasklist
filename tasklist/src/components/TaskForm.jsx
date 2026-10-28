@@ -19,13 +19,13 @@ export default function TaskForm({ onAdd }) {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Nova tarefa..."
-        className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 outline-none focus:border-emerald-500"
+        className="flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 outline-none focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
       />
 
       <select
         value={priority}
         onChange={(e) => setPriority(e.target.value)}
-        className="rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:border-emerald-500"
+        className="rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
       >
         <option value="baixa">Baixa</option>
         <option value="media">Média</option>
@@ -36,12 +36,12 @@ export default function TaskForm({ onAdd }) {
         type="date"
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
-        className="rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:border-emerald-500"
+        className="rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:[color-scheme:dark]"
       />
 
       <button
         disabled={!title.trim()}
-        className="rounded-xl bg-emerald-600 px-4 py-2 font-medium text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-xl bg-emerald-500 px-2 py-2 font-medium text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
       >
         Adicionar
       </button>
