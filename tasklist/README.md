@@ -1,4 +1,4 @@
-# 🌿 TaskList
+# 🌿 ZenTask
 
 Gerenciador de tarefas simples e moderno, feito com **React**, **Vite** e **Tailwind CSS**. As tarefas ficam salvas no próprio navegador, sem precisar de login nem de servidor.
 

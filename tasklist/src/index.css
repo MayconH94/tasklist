@@ -1,3 +1,164 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Temas: cada um é só um conjunto de variáveis ----------
+   O tema ativo é escolhido pelo atributo data-theme no <html>.
+   (a lista de temas está em src/lib/themes.js) */
+:root,
+[data-theme="claro"] {
+  --app: #f4f4f6;
+  --sidebar: #ebebef;
+  --surface: #ffffff;
+  --raised: #f5f5f8;
+  --line: rgb(0 0 0 / 0.09);
+  --ink: #1c1c21;
+  --muted: #6b6b76;
+  --accent: #7c3aed;
+  --accent-soft: rgb(124 58 237 / 0.12);
+  --wallpaper: none;
+  color-scheme: light;
+}
+
+[data-theme="escuro"] {
+  --app: #131316;
+  --sidebar: #18181c;
+  --surface: #1e1e23;
+  --raised: #26262c;
+  --line: rgb(255 255 255 / 0.09);
+  --ink: #ececf1;
+  --muted: #9a9aa6;
+  --accent: #a78bfa;
+  --accent-soft: rgb(167 139 250 / 0.16);
+  --wallpaper: none;
+  color-scheme: dark;
+}
+
+[data-theme="halloween"] {
+  --app: #140a1c;
+  --sidebar: #1a0e24;
+  --surface: #22142f;
+  --raised: #2c1a3d;
+  --line: rgb(255 138 31 / 0.2);
+  --ink: #f7ead9;
+  --muted: #b9a0c9;
+  --accent: #ff8a1f;
+  --accent-soft: rgb(255 138 31 / 0.16);
+  --wallpaper: none;
+  color-scheme: dark;
+}
+
+[data-theme="natal"] {
+  --app: #0e2118;
+  --sidebar: #12291d;
+  --surface: #173324;
+  --raised: #1f4130;
+  --line: rgb(255 255 255 / 0.12);
+  --ink: #f6efe4;
+  --muted: #a8c3b1;
+  --accent: #ff5a67;
+  --accent-soft: rgb(255 90 103 / 0.18);
+  --wallpaper: none;
+  color-scheme: dark;
+}
+
+/* Vidro: fundo colorido + camadas semitransparentes com desfoque.
+   No Electron (Aula 14) o desfoque pode ser o da própria janela do Windows. */
+[data-theme="translucido"] {
+  --app: transparent;
+  --sidebar: rgb(15 15 35 / 0.4);
+  --surface: rgb(255 255 255 / 0.09);
+  --raised: rgb(255 255 255 / 0.13);
+  --line: rgb(255 255 255 / 0.16);
+  --ink: #f4f4fb;
+  --muted: #c3c3d6;
+  --accent: #8ab4ff;
+  --accent-soft: rgb(138 180 255 / 0.22);
+  --wallpaper: radial-gradient(at 12% 18%, #5b3df5 0, transparent 50%),
+    radial-gradient(at 88% 12%, #1fb6c9 0, transparent 45%),
+    radial-gradient(at 72% 92%, #e0409a 0, transparent 50%),
+    linear-gradient(#0b0b1a, #0b0b1a);
+  color-scheme: dark;
+}
+
+[data-theme="translucido"] :is(aside, header, section) {
+  backdrop-filter: blur(22px) saturate(1.5);
+}
+
+/* Fundo de um tema (usado no corpo da página e nas miniaturas) */
+.themed-bg {
+  background-color: var(--app);
+  background-image: var(--wallpaper);
+  background-attachment: fixed;
+  color: var(--ink);
+}
+
+@theme inline {
+  --color-app: var(--app);
+  --color-sidebar: var(--sidebar);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui,
+    sans-serif;
+}
+
+/* ---------- Base: comportamento de app, não de página ---------- */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--app);
+  background-image: var(--wallpaper);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  user-select: none; /* a interface não é texto para selecionar... */
+  cursor: default;
+  overflow: hidden; /* só a área de conteúdo rola, a janela não */
+}
+
+/* ...mas o que você escreve, sim */
+input,
+textarea,
+.selectable {
+  user-select: text;
+}
+
+button,
+select,
+input[type="checkbox"] {
+  cursor: default;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Barras de rolagem finas, como em apps nativos */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+/* Barra de título: arrastar a janela (vale quando virar Electron) */
+.app-drag {
+  -webkit-app-region: drag;
+}
+.app-no-drag {
+  -webkit-app-region: no-drag;
+}

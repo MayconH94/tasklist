@@ -1,4 +1,11 @@
-import { BookOpen, ListChecks, TrendingUp, Moon, Sun, Sparkles } from "lucide-react";
+import {
+  BookOpen,
+  CalendarDays,
+  ListChecks,
+  Palette,
+  TrendingUp,
+} from "lucide-react";
+import { formatShort, lastDays, todayKey } from "../lib/dates";
 
 const NAV = [
   { id: "diario", label: "Diário", icon: BookOpen },
@@ -6,42 +13,76 @@ const NAV = [
   { id: "visao", label: "Visão geral", icon: TrendingUp },
 ];
 
-export default function Sidebar({ view, onView, dark, onToggleDark }) {
-  return (
-    <aside className="flex w-64 shrink-0 flex-col gap-6 border-r border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-slate-900/60">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-600 text-white">
-          <Sparkles size={20} />
-        </div>
-        <div className="flex-1">
-          <p className="font-semibold">ZenJournal</p>
-          <p className="text-xs text-slate-500 dark:text-slate-400">Fluxo diário e tarefas</p>
-        </div>
-        <button
-          onClick={onToggleDark}
-          aria-label="Alternar modo escuro"
-          className="rounded-full p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
-        >
-          {dark ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
-      </div>
+const LABEL = "px-2 text-[11px] font-semibold uppercase tracking-wider text-muted";
 
-      <nav className="flex flex-col gap-1">
+const ITEM =
+  "flex h-8 w-full items-center gap-2.5 rounded-md px-2 text-left text-[13px] transition-colors";
+const ITEM_ACTIVE = "bg-accent-soft font-medium text-ink";
+const ITEM_IDLE = "text-muted hover:bg-ink/5 hover:text-ink";
+
+export default function Sidebar({
+  view,
+  onView,
+  selectedDate,
+  onSelectDate,
+}) {
+  const today = todayKey();
+  const recent = lastDays(7);
+
+  return (
+    <aside className="flex w-60 shrink-0 flex-col gap-5 overflow-y-auto border-r border-line bg-sidebar p-3">
+      <nav className="flex flex-col gap-0.5">
         {NAV.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
             onClick={() => onView(id)}
-            className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors ${
-              view === id
-                ? "bg-violet-600 text-white"
-                : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
-            }`}
+            className={`${ITEM} ${view === id ? ITEM_ACTIVE : ITEM_IDLE}`}
           >
-            <Icon size={18} />
+            <Icon size={16} className={view === id ? "text-accent" : ""} />
             {label}
           </button>
         ))}
       </nav>
+
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="data" className={LABEL}>
+          Ir para o dia
+        </label>
+        <input
+          id="data"
+          type="date"
+          value={selectedDate}
+          onChange={(e) => e.target.value && onSelectDate(e.target.value)}
+          className="h-8 rounded-md border border-line bg-surface px-2 text-[13px] text-ink outline-none focus:border-accent"
+        />
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <p className={LABEL}>Dias recentes</p>
+        <ul className="flex flex-col gap-0.5">
+          {[...recent].reverse().map((day) => (
+            <li key={day}>
+              <button
+                onClick={() => onSelectDate(day)}
+                className={`${ITEM} ${
+                  selectedDate === day ? ITEM_ACTIVE : ITEM_IDLE
+                }`}
+              >
+                <CalendarDays size={15} />
+                {day === today ? "Hoje" : formatShort(day)}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <button
+        onClick={() => onView("temas")}
+        className={`${ITEM} ${view === "temas" ? ITEM_ACTIVE : ITEM_IDLE} mt-auto`}
+      >
+        <Palette size={16} className={view === "temas" ? "text-accent" : ""} />
+        Temas
+      </button>
     </aside>
   );
 }
