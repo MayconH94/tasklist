@@ -7,11 +7,11 @@ const MOOD_EMOJI = ["", "😞", "😕", "😐", "🙂", "😄"];
 
 function Stat({ label, value, hint }) {
   return (
-    <div className="rounded-xl border border-slate-200 p-4 dark:border-white/10">
-      <p className="text-sm text-slate-500 dark:text-slate-400">{label}</p>
+    <div className="rounded-lg border border-line bg-raised p-4">
+      <p className="text-sm text-muted">{label}</p>
       <p className="mt-1 text-3xl font-semibold">{value}</p>
       {hint && (
-        <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
+        <p className="mt-1 text-xs text-muted">
           {hint}
         </p>
       )}
@@ -53,7 +53,7 @@ export default function Overview() {
         <h3 className="mb-2 font-medium">
           Humor da semana{" "}
           {mood !== null && (
-            <span className="text-sm font-normal text-slate-500 dark:text-slate-400">
+            <span className="text-sm font-normal text-muted">
               · média {MOOD_EMOJI[Math.round(mood)]} {mood.toFixed(1)}
             </span>
           )}
@@ -62,9 +62,9 @@ export default function Overview() {
           {days.map((d) => (
             <div
               key={d}
-              className="rounded-lg border border-slate-200 py-2 dark:border-white/10"
+              className="rounded-lg border border-line bg-raised py-2"
             >
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-muted">
                 {formatShort(d).split(",")[0].slice(0, 3)}
               </p>
               <p className="text-xl">
@@ -78,7 +78,7 @@ export default function Overview() {
       <section>
         <h3 className="mb-2 font-medium">Tarefas por categoria</h3>
         {stats.total === 0 ? (
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-sm text-muted">
             Nenhuma tarefa ainda.
           </p>
         ) : (
@@ -87,16 +87,16 @@ export default function Overview() {
               const n = stats.byCategory[key] ?? 0;
               return (
                 <li key={key} className="flex items-center gap-3 text-sm">
-                  <span className="w-20 text-slate-600 dark:text-slate-300">
+                  <span className="w-20 text-ink/80">
                     {c.label}
                   </span>
-                  <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+                  <div className="h-2 flex-1 overflow-hidden rounded-full bg-ink/10">
                     <div
-                      className="h-full rounded-full bg-violet-500"
+                      className="h-full rounded-full bg-accent"
                       style={{ width: `${(n / stats.total) * 100}%` }}
                     />
                   </div>
-                  <span className="w-6 text-right text-slate-500">{n}</span>
+                  <span className="w-6 text-right text-muted">{n}</span>
                 </li>
               );
             })}

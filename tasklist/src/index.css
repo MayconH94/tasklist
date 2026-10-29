@@ -16,6 +16,7 @@
   --muted: #6b6b76;
   --accent: #7c3aed;
   --accent-soft: rgb(124 58 237 / 0.12);
+  --on-accent: #ffffff;
   --wallpaper: none;
   color-scheme: light;
 }
@@ -30,6 +31,7 @@
   --muted: #9a9aa6;
   --accent: #a78bfa;
   --accent-soft: rgb(167 139 250 / 0.16);
+  --on-accent: #17121f;
   --wallpaper: none;
   color-scheme: dark;
 }
@@ -44,6 +46,7 @@
   --muted: #b9a0c9;
   --accent: #ff8a1f;
   --accent-soft: rgb(255 138 31 / 0.16);
+  --on-accent: #1a0e24;
   --wallpaper: none;
   color-scheme: dark;
 }
@@ -58,6 +61,7 @@
   --muted: #a8c3b1;
   --accent: #ff5a67;
   --accent-soft: rgb(255 90 103 / 0.18);
+  --on-accent: #1f080c;
   --wallpaper: none;
   color-scheme: dark;
 }
@@ -74,6 +78,7 @@
   --muted: #c3c3d6;
   --accent: #8ab4ff;
   --accent-soft: rgb(138 180 255 / 0.22);
+  --on-accent: #0b0b1a;
   --wallpaper: radial-gradient(at 12% 18%, #5b3df5 0, transparent 50%),
     radial-gradient(at 88% 12%, #1fb6c9 0, transparent 45%),
     radial-gradient(at 72% 92%, #e0409a 0, transparent 50%),
@@ -103,6 +108,7 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
   --font-sans: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui,
     sans-serif;
 }

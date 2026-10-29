@@ -32,7 +32,7 @@ export default function TaskItem({
 
   return (
     <li
-      className={`flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900 ${
+      className={`flex items-center gap-3 rounded-lg border border-line bg-raised px-3 py-2.5 ${
         overdue ? "border-l-4 border-l-rose-500" : ""
       }`}
     >
@@ -40,7 +40,7 @@ export default function TaskItem({
         type="checkbox"
         checked={task.done}
         onChange={() => onToggle(task.id)}
-        className="h-4 w-4 accent-emerald-600"
+        className="h-4 w-4 accent-[var(--accent)]"
       />
 
       {editing ? (
@@ -53,12 +53,12 @@ export default function TaskItem({
             if (e.key === "Enter") save();
             if (e.key === "Escape") cancel();
           }}
-          className="flex-1 rounded-lg border border-emerald-500 px-2 py-1 outline-none dark:bg-slate-800 dark:text-slate-100"
+          className="flex-1 rounded-md border border-accent bg-transparent px-2 py-1 text-ink outline-none"
         />
       ) : (
         <span
           onDoubleClick={() => setEditing(true)}
-          className={`flex-1 ${task.done ? "text-slate-400 line-through" : ""}`}
+          className={`flex-1 ${task.done ? "text-muted line-through" : ""}`}
         >
           {task.title}
         </span>
@@ -83,7 +83,7 @@ export default function TaskItem({
       {task.pomodoros > 0 && (
         <span
           title={`${task.pomodoros} pomodoro(s) nesta tarefa`}
-          className="text-xs text-slate-500 dark:text-slate-400"
+          className="text-xs text-muted"
         >
           🍅 {task.pomodoros}
         </span>
@@ -92,7 +92,7 @@ export default function TaskItem({
       {task.dueDate && (
         <span
           className={`text-xs ${
-            overdue ? "font-medium text-rose-600" : "text-slate-400"
+            overdue ? "font-medium text-rose-500" : "text-muted"
           }`}
         >
           {task.dueDate.split("-").reverse().join("/")}
@@ -101,7 +101,7 @@ export default function TaskItem({
 
       <button
         onClick={() => setEditing(true)}
-        className="text-slate-400 hover:text-emerald-600"
+        className="text-muted hover:text-accent"
         aria-label="Editar tarefa"
       >
         ✎
@@ -109,7 +109,7 @@ export default function TaskItem({
 
       <button
         onClick={() => onRemove(task.id)}
-        className="text-slate-400 hover:text-rose-500"
+        className="text-muted hover:text-rose-500"
         aria-label="Remover tarefa"
       >
         ✕

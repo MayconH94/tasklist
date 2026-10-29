@@ -69,8 +69,8 @@ export default function TaskList() {
             onClick={() => setFilter(f)}
             className={`rounded-full px-3 py-1 text-sm capitalize transition-colors ${
               filter === f
-                ? "bg-emerald-600 text-white"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                ? "bg-accent text-on-accent"
+                : "bg-ink/5 text-muted hover:bg-ink/10 hover:text-ink"
             }`}
           >
             {f}
@@ -85,8 +85,8 @@ export default function TaskList() {
             onClick={() => setCategoryFilter(c)}
             className={`rounded-full px-3 py-1 text-xs transition-colors ${
               categoryFilter === c
-                ? "bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900"
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                ? "bg-accent-soft text-ink ring-1 ring-accent"
+                : "bg-ink/5 text-muted hover:bg-ink/10 hover:text-ink"
             }`}
           >
             {c === "todas" ? "Todas as categorias" : CATEGORIES[c].label}
@@ -108,13 +108,13 @@ export default function TaskList() {
       </ul>
 
       {total > 0 && (
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-muted">
           {concluidas} de {total} concluídas
         </p>
       )}
 
       {total === 0 && (
-        <p className="text-center text-slate-400">Nenhuma tarefa ainda.</p>
+        <p className="py-6 text-center text-muted">Nenhuma tarefa ainda.</p>
       )}
     </div>
   );

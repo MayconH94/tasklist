@@ -48,17 +48,17 @@ export default function Pomodoro({ tasks, onFocusComplete }) {
   return (
     <section
       aria-label="Pomodoro"
-      className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-white/10 dark:bg-slate-800/40"
+      className="flex flex-col gap-4 rounded-xl border border-line bg-raised p-4"
     >
-      <div className="flex gap-1 rounded-xl bg-slate-200/70 p-1 dark:bg-slate-900/60">
+      <div className="flex gap-1 rounded-lg bg-ink/5 p-1">
         {Object.keys(DURATIONS).map((m) => (
           <button
             key={m}
             onClick={() => p.setMode(m)}
-            className={`flex-1 rounded-lg px-2 py-1 text-sm transition-colors ${
+            className={`flex-1 rounded-md px-2 py-1 text-sm transition-colors ${
               p.mode === m
-                ? "bg-white font-medium text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white"
-                : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
+                ? "bg-surface font-medium text-ink shadow-sm"
+                : "text-muted hover:text-ink"
             }`}
           >
             {MODE_LABEL[m]}
@@ -74,12 +74,12 @@ export default function Pomodoro({ tasks, onFocusComplete }) {
         >
           {clock}
         </p>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-1 text-sm text-muted">
           🍅 {p.cycles} {p.cycles === 1 ? "foco concluído" : "focos concluídos"}
         </p>
       </div>
 
-      <div className="h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+      <div className="h-1.5 overflow-hidden rounded-full bg-ink/10">
         <div
           className={`h-full rounded-full transition-[width] duration-300 ${BAR_COLOR[p.mode]}`}
           style={{ width: `${progress}%` }}
@@ -89,7 +89,7 @@ export default function Pomodoro({ tasks, onFocusComplete }) {
       <div className="flex items-center justify-center gap-2">
         <button
           onClick={p.running ? p.pause : p.start}
-          className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-violet-700"
+          className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2 text-sm font-medium text-on-accent transition-opacity hover:opacity-90"
         >
           {p.running ? <Pause size={16} /> : <Play size={16} />}
           {p.running ? "Pausar" : "Iniciar"}
@@ -97,27 +97,27 @@ export default function Pomodoro({ tasks, onFocusComplete }) {
         <button
           onClick={p.reset}
           aria-label="Reiniciar fase"
-          className="rounded-xl p-2 text-slate-500 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700"
+          className="rounded-lg p-2 text-muted hover:bg-ink/10 hover:text-ink"
         >
           <RotateCcw size={18} />
         </button>
         <button
           onClick={p.skip}
           aria-label="Pular fase"
-          className="rounded-xl p-2 text-slate-500 hover:bg-slate-200 dark:text-slate-300 dark:hover:bg-slate-700"
+          className="rounded-lg p-2 text-muted hover:bg-ink/10 hover:text-ink"
         >
           <SkipForward size={18} />
         </button>
       </div>
 
       <label className="flex flex-col gap-1 text-sm">
-        <span className="text-slate-500 dark:text-slate-400">
+        <span className="text-muted">
           Em qual tarefa você vai focar?
         </span>
         <select
           value={activeId}
           onChange={(e) => setTaskId(e.target.value)}
-          className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-violet-500 dark:border-white/10 dark:bg-slate-800/70 dark:text-slate-100"
+          className="rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink outline-none focus:border-accent"
         >
           <option value="">Nenhuma (só o cronômetro)</option>
           {tasks.map((t) => (

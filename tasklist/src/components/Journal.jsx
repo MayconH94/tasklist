@@ -32,7 +32,7 @@ export default function Journal({ date }) {
         aria-label="Humor do dia"
         className="flex items-center gap-2"
       >
-        <span className="mr-1 text-sm text-slate-500 dark:text-slate-400">
+        <span className="mr-1 text-sm text-muted">
           Humor
         </span>
         {MOODS.map((m) => {
@@ -45,10 +45,10 @@ export default function Journal({ date }) {
               aria-label={m.label}
               title={m.label}
               onClick={() => update({ mood: selected ? null : m.value })}
-              className={`rounded-xl px-2.5 py-1.5 text-xl transition ${
+              className={`rounded-lg px-2.5 py-1.5 text-xl transition ${
                 selected
-                  ? "bg-violet-100 ring-2 ring-violet-500 dark:bg-violet-500/20"
-                  : "opacity-60 hover:bg-slate-100 hover:opacity-100 dark:hover:bg-slate-800"
+                  ? "bg-accent-soft ring-2 ring-accent"
+                  : "opacity-60 hover:bg-ink/5 hover:opacity-100"
               }`}
             >
               {m.emoji}
@@ -62,10 +62,10 @@ export default function Journal({ date }) {
         onChange={(e) => update({ notes: e.target.value })}
         placeholder="Como foi o seu dia? Escreva o que quiser…"
         autoFocus
-        className="min-h-64 w-full resize-y rounded-xl border border-slate-200 bg-white px-4 py-3 leading-relaxed text-slate-800 outline-none placeholder:text-slate-400 focus:border-violet-500 dark:border-white/10 dark:bg-slate-800/70 dark:text-slate-100 dark:placeholder:text-slate-500"
+        className="min-h-64 w-full resize-y rounded-lg border border-line bg-raised px-4 py-3 leading-relaxed text-ink outline-none placeholder:text-muted focus:border-accent"
       />
 
-      <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+      <div className="flex justify-between text-xs text-muted">
         <span>
           {words} {words === 1 ? "palavra" : "palavras"}
         </span>

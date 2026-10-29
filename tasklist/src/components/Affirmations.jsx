@@ -46,7 +46,7 @@ export default function Affirmations({ date }) {
   return (
     <div className="flex flex-col gap-4">
       {today && (
-        <blockquote className="rounded-xl bg-violet-50 px-4 py-3 text-lg font-medium text-violet-900 dark:bg-violet-500/10 dark:text-violet-200">
+        <blockquote className="rounded-lg bg-accent-soft px-4 py-3 text-lg font-medium text-ink">
           “{today.text}”
         </blockquote>
       )}
@@ -56,12 +56,12 @@ export default function Affirmations({ date }) {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="Nova afirmação…"
-          className="min-w-40 flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-800 outline-none focus:border-violet-500 dark:border-white/10 dark:bg-slate-800/70 dark:text-slate-100"
+          className="min-w-40 flex-1 rounded-lg border border-line bg-raised px-3 py-2 text-ink outline-none placeholder:text-muted focus:border-accent"
         />
         <button
           type="submit"
           disabled={!draft.trim()}
-          className="rounded-lg bg-violet-600 px-4 py-2 font-medium text-white hover:bg-violet-700 disabled:opacity-40"
+          className="rounded-lg bg-accent px-4 py-2 font-medium text-on-accent hover:opacity-90 disabled:opacity-40"
         >
           Adicionar
         </button>
@@ -71,7 +71,7 @@ export default function Affirmations({ date }) {
         {items.map((a) => (
           <li
             key={a.id}
-            className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 dark:border-white/10"
+            className="flex items-center gap-2 rounded-lg border border-line bg-raised px-3 py-2"
           >
             {editingId === a.id ? (
               <input
@@ -84,12 +84,12 @@ export default function Affirmations({ date }) {
                   if (e.key === "Enter") saveEdit();
                   if (e.key === "Escape") setEditingId(null);
                 }}
-                className="flex-1 rounded border border-violet-500 bg-transparent px-2 py-1 text-slate-800 outline-none dark:text-slate-100"
+                className="flex-1 rounded border border-accent bg-transparent px-2 py-1 text-ink outline-none"
               />
             ) : (
               <span
                 onDoubleClick={() => startEdit(a)}
-                className="flex-1 text-slate-700 dark:text-slate-200"
+                className="flex-1 text-ink"
               >
                 {a.text}
               </span>
@@ -97,14 +97,14 @@ export default function Affirmations({ date }) {
             <button
               onClick={() => startEdit(a)}
               aria-label="Editar"
-              className="text-slate-400 hover:text-violet-600"
+              className="text-muted hover:text-accent"
             >
               ✎
             </button>
             <button
               onClick={() => remove(a.id)}
               aria-label="Remover"
-              className="text-slate-400 hover:text-red-500"
+              className="text-muted hover:text-rose-500"
             >
               ✕
             </button>
@@ -113,7 +113,7 @@ export default function Affirmations({ date }) {
       </ul>
 
       {items.length === 0 && (
-        <p className="text-sm text-slate-500 dark:text-slate-400">
+        <p className="text-sm text-muted">
           Nenhuma afirmação ainda. Escreva a primeira acima.
         </p>
       )}

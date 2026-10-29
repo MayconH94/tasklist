@@ -21,13 +21,13 @@ export default function TaskForm({ onAdd }) {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Nova tarefa..."
-        className="min-w-40 flex-1 rounded-xl border border-slate-200 bg-white px-4 py-2 outline-none focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
+        className="min-w-40 flex-1 rounded-lg border border-line bg-raised px-3 py-2 text-ink outline-none placeholder:text-muted focus:border-accent"
       />
 
       <select
         value={priority}
         onChange={(e) => setPriority(e.target.value)}
-        className="rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500"
+        className="rounded-lg border border-line bg-raised px-3 py-2 text-ink outline-none placeholder:text-muted focus:border-accent"
       >
         <option value="baixa">Baixa</option>
         <option value="media">Média</option>
@@ -38,7 +38,7 @@ export default function TaskForm({ onAdd }) {
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         aria-label="Categoria"
-        className="rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+        className="rounded-lg border border-line bg-raised px-3 py-2 text-ink outline-none placeholder:text-muted focus:border-accent"
       >
         {Object.entries(CATEGORIES).map(([key, c]) => (
           <option key={key} value={key}>
@@ -51,12 +51,12 @@ export default function TaskForm({ onAdd }) {
         type="date"
         value={dueDate}
         onChange={(e) => setDueDate(e.target.value)}
-        className="rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-500 dark:[color-scheme:dark]"
+        className="rounded-lg border border-line bg-raised px-3 py-2 text-ink outline-none placeholder:text-muted focus:border-accent"
       />
 
       <button
         disabled={!title.trim()}
-        className="rounded-xl bg-emerald-500 px-2 py-2 font-medium text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-lg bg-accent px-4 py-2 font-medium text-on-accent hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
       >
         Adicionar
       </button>
