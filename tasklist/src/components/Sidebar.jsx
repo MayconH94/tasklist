@@ -10,22 +10,18 @@ import { formatShort, lastDays, todayKey } from "../lib/dates";
 const NAV = [
   { id: "diario", label: "Diário", icon: BookOpen },
   { id: "tarefas", label: "Foco em tarefas", icon: ListChecks },
-  { id: "visao", label: "Visão geral", icon: TrendingUp },
+  { id: "visao", label: "Estatísticas", icon: TrendingUp },
 ];
 
-const LABEL = "px-2 text-[11px] font-semibold uppercase tracking-wider text-muted";
+const LABEL =
+  "px-2 text-[11px] font-semibold uppercase tracking-wider text-muted";
 
 const ITEM =
   "flex h-8 w-full items-center gap-2.5 rounded-md px-2 text-left text-[13px] transition-colors";
 const ITEM_ACTIVE = "bg-accent-soft font-medium text-ink";
 const ITEM_IDLE = "text-muted hover:bg-ink/5 hover:text-ink";
 
-export default function Sidebar({
-  view,
-  onView,
-  selectedDate,
-  onSelectDate,
-}) {
+export default function Sidebar({ view, onView, selectedDate, onSelectDate }) {
   const today = todayKey();
   const recent = lastDays(7);
 

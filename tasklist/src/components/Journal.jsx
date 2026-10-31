@@ -1,18 +1,40 @@
+import { ClipboardCheck } from "lucide-react";
 import { useData } from "../context/DataContext";
-
-const MOODS = [
-  { value: 1, emoji: "😞", label: "Péssimo" },
-  { value: 2, emoji: "😕", label: "Ruim" },
-  { value: 3, emoji: "😐", label: "Normal" },
-  { value: 4, emoji: "🙂", label: "Bom" },
-  { value: 5, emoji: "😄", label: "Ótimo" },
-];
+import { CATEGORIES, DEFAULT_CATEGORY } from "../lib/categories";
+import { formatLong, todayKey } from "../lib/dates";
+import { MOODS } from "../lib/moods";
 
 const EMPTY = { notes: "", mood: null };
+const CLOSING_TITLE = "Fechamento do dia";
+
+// Rascunho com o que foi feito (e o que ficou pendente) no dia.
+function buildClosing(date, tasks, mood) {
+  const today = todayKey();
+  const ofDay = (t) => (t.dueDate || today) === date;
+  const done = tasks.filter(
+    (t) => t.done && (t.doneAt ? t.doneAt === date : ofDay(t)),
+  );
+  const pending = tasks.filter((t) => !t.done && ofDay(t));
+  const line = (t) =>
+    `- ${t.title} (${CATEGORIES[t.category ?? DEFAULT_CATEGORY].label})` +
+    (t.pomodoros > 0 ? ` 🍅 ${t.pomodoros}` : "");
+
+  const lines = [`${CLOSING_TITLE} — ${formatLong(date)}`, ""];
+  lines.push(`✔ Concluídas (${done.length})`);
+  lines.push(...(done.length ? done.map(line) : ["- nada concluído"]), "");
+  if (pending.length) {
+    lines.push(`○ Ficaram pendentes (${pending.length})`);
+    lines.push(...pending.map(line), "");
+  }
+  const m = MOODS.find((x) => x.value === mood);
+  if (m) lines.push(`Humor: ${m.emoji} ${m.label}`, "");
+  lines.push("O que funcionou:", "", "O que ajustar amanhã:", "");
+  return lines.join("\n");
+}
 
 export default function Journal({ date }) {
   // entries = { "2026-10-28": { notes: "...", mood: 4 }, ... }
-  const { entries, setEntries } = useData();
+  const { entries, setEntries, tasks } = useData();
   const entry = entries[date] ?? EMPTY;
 
   function update(patch) {
@@ -21,6 +43,13 @@ export default function Journal({ date }) {
       [date]: { ...(prev[date] ?? EMPTY), ...patch },
     }));
   }
+
+  function addClosing() {
+    const closing = buildClosing(date, tasks, entry.mood);
+    const notes = entry.notes.trimEnd();
+    update({ notes: notes ? `${notes}\n\n${closing}` : closing });
+  }
+  const hasClosing = entry.notes.includes(CLOSING_TITLE);
 
   const text = entry.notes.trim();
   const words = text ? text.split(/\s+/).length : 0;
@@ -64,6 +93,15 @@ export default function Journal({ date }) {
         autoFocus
         className="min-h-64 w-full resize-y rounded-lg border border-line bg-raised px-4 py-3 leading-relaxed text-ink outline-none placeholder:text-muted focus:border-accent"
       />
+
+      <button
+        onClick={addClosing}
+        disabled={hasClosing}
+        className="inline-flex h-9 w-fit items-center gap-2 rounded-full border border-line px-4 text-[13px] text-muted transition-colors hover:border-ink/30 hover:text-ink disabled:opacity-40"
+      >
+        <ClipboardCheck size={15} />
+        {hasClosing ? "Fechamento já inserido" : "Gerar fechamento do dia"}
+      </button>
 
       <div className="flex justify-between text-xs text-muted">
         <span>

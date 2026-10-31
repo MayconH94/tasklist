@@ -1,5 +1,6 @@
 import { useData } from "../context/DataContext";
 import { CATEGORIES } from "../lib/categories";
+import MoodDay from "./MoodDay";
 import { lastDays, formatShort } from "../lib/dates";
 import { averageMood, journalStreak, taskStats } from "../lib/stats";
 
@@ -20,7 +21,14 @@ function Stat({ label, value, hint }) {
 }
 
 export default function Overview() {
-  const { tasks, entries } = useData();
+  const { tasks, entries, setEntries } = useData();
+
+  function setMood(date, mood) {
+    setEntries((prev) => ({
+      ...prev,
+      [date]: { notes: "", ...prev[date], mood },
+    }));
+  }
 
   const stats = taskStats(tasks);
   const streak = journalStreak(entries);
@@ -60,17 +68,13 @@ export default function Overview() {
         </h3>
         <div className="grid grid-cols-7 gap-2 text-center">
           {days.map((d) => (
-            <div
+            <MoodDay
               key={d}
-              className="rounded-lg border border-line bg-raised py-2"
-            >
-              <p className="text-xs text-muted">
-                {formatShort(d).split(",")[0].slice(0, 3)}
-              </p>
-              <p className="text-xl">
-                {entries[d]?.mood ? MOOD_EMOJI[entries[d].mood] : "·"}
-              </p>
-            </div>
+              date={d}
+              label={formatShort(d).split(",")[0].slice(0, 3)}
+              mood={entries[d]?.mood}
+              onChange={setMood}
+            />
           ))}
         </div>
       </section>
@@ -92,7 +96,7 @@ export default function Overview() {
                   </span>
                   <div className="h-2 flex-1 overflow-hidden rounded-full bg-ink/10">
                     <div
-                      className="h-full rounded-full bg-accent"
+                      className={`h-full rounded-full ${c.bar}`}
                       style={{ width: `${(n / stats.total) * 100}%` }}
                     />
                   </div>

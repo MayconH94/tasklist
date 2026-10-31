@@ -1,12 +1,27 @@
 import { useState } from "react";
+import { Check, Pencil, Trash2 } from "lucide-react";
 import { CATEGORIES, DEFAULT_CATEGORY } from "../lib/categories";
 
-const PRIORITY_STYLES = {
-  baixa:
-    "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
-  media: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
-  alta: "bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300",
+const PRIORITY = {
+  baixa: {
+    label: "baixa",
+    bar: "bg-emerald-500",
+    text: "text-emerald-700 dark:text-emerald-300",
+  },
+  media: {
+    label: "média",
+    bar: "bg-amber-500",
+    text: "text-amber-700 dark:text-amber-300",
+  },
+  alta: {
+    label: "alta",
+    bar: "bg-rose-500",
+    text: "text-rose-700 dark:text-rose-300",
+  },
 };
+
+const ICON_BUTTON =
+  "grid size-8 place-items-center rounded-full text-muted transition-colors hover:bg-ink/10";
 
 export default function TaskItem({
   task,
@@ -17,6 +32,9 @@ export default function TaskItem({
 }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(task.title);
+
+  const priority = PRIORITY[task.priority ?? "media"];
+  const category = CATEGORIES[task.category ?? DEFAULT_CATEGORY];
 
   function save() {
     const clean = draft.trim();
@@ -30,90 +48,95 @@ export default function TaskItem({
     setEditing(false);
   }
 
+  // A faixa lateral mostra a prioridade; atrasada vira vermelha; concluída apaga.
+  const barColor = task.done
+    ? "bg-ink/15"
+    : overdue
+      ? "bg-rose-500"
+      : priority.bar;
+
   return (
-    <li
-      className={`flex items-center gap-3 rounded-lg border border-line bg-raised px-3 py-2.5 ${
-        overdue ? "border-l-4 border-l-rose-500" : ""
-      }`}
-    >
-      <input
-        type="checkbox"
-        checked={task.done}
-        onChange={() => onToggle(task.id)}
-        className="h-4 w-4 accent-[var(--accent)]"
+    <li className="group relative flex items-center gap-3 rounded-lg border border-line bg-raised py-2.5 pl-4 pr-2 transition-colors hover:bg-ink/[0.03]">
+      <span
+        className={`absolute inset-y-2.5 left-0 w-[3px] rounded-full ${barColor}`}
       />
 
-      {editing ? (
+      <label className="relative size-5 shrink-0">
         <input
-          autoFocus
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          onBlur={save}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") save();
-            if (e.key === "Escape") cancel();
-          }}
-          className="flex-1 rounded-md border border-accent bg-transparent px-2 py-1 text-ink outline-none"
+          type="checkbox"
+          checked={task.done}
+          onChange={() => onToggle(task.id)}
+          aria-label={`Concluir: ${task.title}`}
+          className="peer absolute inset-0 size-full opacity-0"
         />
-      ) : (
-        <span
-          onDoubleClick={() => setEditing(true)}
-          className={`flex-1 ${task.done ? "text-muted line-through" : ""}`}
-        >
-          {task.title}
+        <span className="grid size-full place-items-center rounded-full border-[1.5px] border-ink/30 text-on-accent transition-colors peer-checked:border-accent peer-checked:bg-accent peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent">
+          {task.done && <Check size={12} strokeWidth={3.5} />}
         </span>
-      )}
+      </label>
 
-      <span
-        className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
-          PRIORITY_STYLES[task.priority ?? "media"]
-        }`}
-      >
-        {task.priority ?? "media"}
-      </span>
+      <div className="min-w-0 flex-1">
+        {editing ? (
+          <input
+            autoFocus
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onBlur={save}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") save();
+              if (e.key === "Escape") cancel();
+            }}
+            className="w-full rounded-md border border-accent bg-transparent px-2 py-1 text-ink outline-none"
+          />
+        ) : (
+          <span
+            onDoubleClick={() => setEditing(true)}
+            className={`block break-words ${task.done ? "text-muted line-through" : "font-medium"}`}
+          >
+            {task.title}
+          </span>
+        )}
 
-      <span
-        className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
-          CATEGORIES[task.category ?? DEFAULT_CATEGORY].style
-        }`}
-      >
-        {CATEGORIES[task.category ?? DEFAULT_CATEGORY].label}
-      </span>
+        <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
+          <span className={task.done ? "" : priority.text}>
+            Prioridade {priority.label}
+          </span>
+          <span
+            className={`rounded-full px-2 py-px font-medium ${category.style}`}
+          >
+            {category.label}
+          </span>
+          {task.pomodoros > 0 && (
+            <span title={`${task.pomodoros} pomodoro(s) nesta tarefa`}>
+              🍅 {task.pomodoros}
+            </span>
+          )}
+          {task.dueDate && (
+            <span
+              title={overdue ? "Atrasada" : undefined}
+              className={overdue ? "font-medium text-rose-500" : ""}
+            >
+              {task.dueDate.split("-").reverse().join("/")}
+            </span>
+          )}
+        </div>
+      </div>
 
-      {task.pomodoros > 0 && (
-        <span
-          title={`${task.pomodoros} pomodoro(s) nesta tarefa`}
-          className="text-xs text-muted"
+      <div className="flex items-center md:opacity-0 md:transition-opacity md:focus-within:opacity-100 md:group-hover:opacity-100">
+        <button
+          onClick={() => setEditing(true)}
+          aria-label="Editar tarefa"
+          className={`${ICON_BUTTON} hover:text-ink`}
         >
-          🍅 {task.pomodoros}
-        </span>
-      )}
-
-      {task.dueDate && (
-        <span
-          className={`text-xs ${
-            overdue ? "font-medium text-rose-500" : "text-muted"
-          }`}
+          <Pencil size={15} />
+        </button>
+        <button
+          onClick={() => onRemove(task.id)}
+          aria-label="Remover tarefa"
+          className={`${ICON_BUTTON} hover:text-rose-500`}
         >
-          {task.dueDate.split("-").reverse().join("/")}
-        </span>
-      )}
-
-      <button
-        onClick={() => setEditing(true)}
-        className="text-muted hover:text-accent"
-        aria-label="Editar tarefa"
-      >
-        ✎
-      </button>
-
-      <button
-        onClick={() => onRemove(task.id)}
-        className="text-muted hover:text-rose-500"
-        aria-label="Remover tarefa"
-      >
-        ✕
-      </button>
+          <Trash2 size={15} />
+        </button>
+      </div>
     </li>
   );
 }

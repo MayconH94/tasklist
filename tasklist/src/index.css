@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
+
 @custom-variant dark (&:where(.dark, .dark *));
+
 
 /* ---------- Temas: cada um é só um conjunto de variáveis ----------
    O tema ativo é escolhido pelo atributo data-theme no <html>.
@@ -17,6 +19,8 @@
   --accent: #7c3aed;
   --accent-soft: rgb(124 58 237 / 0.12);
   --on-accent: #ffffff;
+  /* Cor do anel/ponto da fase de foco. Os temas podem trocar (ex.: musgo). */
+  --focus: oklch(64.5% 0.246 16.439);
   --wallpaper: none;
   color-scheme: light;
 }
@@ -32,6 +36,23 @@
   --accent: #a78bfa;
   --accent-soft: rgb(167 139 250 / 0.16);
   --on-accent: #17121f;
+  --wallpaper: none;
+  color-scheme: dark;
+}
+
+/* Verde-musgo com laranja: fundo quase preto esverdeado e destaque em laranja. */
+[data-theme="musgo"] {
+  --app: #111613;
+  --sidebar: #141a17;
+  --surface: #171e1a;
+  --raised: #1e2823;
+  --line: rgb(236 231 218 / 0.1);
+  --ink: #ece7da;
+  --muted: #9aa599;
+  --accent: #e4572e;
+  --accent-soft: rgb(228 87 46 / 0.16);
+  --on-accent: #111613;
+  --focus: #e4572e;
   --wallpaper: none;
   color-scheme: dark;
 }
@@ -109,8 +130,11 @@
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
   --color-on-accent: var(--on-accent);
+  --color-focus: var(--focus);
   --font-sans: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui,
     sans-serif;
+  /* Títulos e relógio. Sem internet, cai para a Georgia do Windows. */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
 }
 
 /* ---------- Base: comportamento de app, não de página ---------- */

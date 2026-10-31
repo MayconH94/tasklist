@@ -3,6 +3,7 @@
 export const THEMES = [
   { id: "claro", label: "Claro", dark: false, emoji: "", info: "Limpo e neutro" },
   { id: "escuro", label: "Escuro", dark: true, emoji: "", info: "Confortável à noite" },
+  { id: "musgo", label: "Musgo", dark: true, emoji: "", info: "Verde-musgo e laranja" },
   { id: "halloween", label: "Halloween", dark: true, emoji: "🎃", info: "Roxo e laranja" },
   { id: "natal", label: "Natal", dark: true, emoji: "🎄", info: "Verde e vermelho" },
   { id: "translucido", label: "Translúcido", dark: true, emoji: "", info: "Vidro desfocado" },
