@@ -6,6 +6,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { formatShort, lastDays, todayKey } from "../lib/dates";
+import LofiPlayer from "./LofiPlayer";
 
 const NAV = [
   { id: "diario", label: "Diário", icon: BookOpen },
@@ -72,13 +73,16 @@ export default function Sidebar({ view, onView, selectedDate, onSelectDate }) {
         </ul>
       </div>
 
-      <button
-        onClick={() => onView("temas")}
-        className={`${ITEM} ${view === "temas" ? ITEM_ACTIVE : ITEM_IDLE} mt-auto`}
-      >
-        <Palette size={16} className={view === "temas" ? "text-accent" : ""} />
-        Temas
-      </button>
+      <div className="mt-auto flex flex-col gap-2">
+        <LofiPlayer />
+        <button
+          onClick={() => onView("temas")}
+          className={`${ITEM} ${view === "temas" ? ITEM_ACTIVE : ITEM_IDLE}`}
+        >
+          <Palette size={16} className={view === "temas" ? "text-accent" : ""} />
+          Temas
+        </button>
+      </div>
     </aside>
   );
 }
