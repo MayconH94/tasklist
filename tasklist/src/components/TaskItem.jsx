@@ -121,7 +121,7 @@ export default function TaskItem({
         </div>
       </div>
 
-      <div className="flex items-center md:opacity-0 md:transition-opacity md:focus-within:opacity-100 md:group-hover:opacity-100">
+      <div className="flex items-center pointer-fine:opacity-0 pointer-fine:transition-opacity pointer-fine:focus-within:opacity-100 pointer-fine:group-hover:opacity-100">
         <button
           onClick={() => setEditing(true)}
           aria-label="Editar tarefa"

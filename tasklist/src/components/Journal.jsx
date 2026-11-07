@@ -59,7 +59,7 @@ export default function Journal({ date }) {
       <div
         role="radiogroup"
         aria-label="Humor do dia"
-        className="flex items-center gap-2"
+        className="flex flex-wrap items-center gap-1 sm:gap-2"
       >
         <span className="mr-1 text-sm text-muted">
           Humor
@@ -74,7 +74,7 @@ export default function Journal({ date }) {
               aria-label={m.label}
               title={m.label}
               onClick={() => update({ mood: selected ? null : m.value })}
-              className={`rounded-lg px-2.5 py-1.5 text-xl transition ${
+              className={`rounded-lg px-2 py-1.5 text-xl transition sm:px-2.5 ${
                 selected
                   ? "bg-accent-soft ring-2 ring-accent"
                   : "opacity-60 hover:bg-ink/5 hover:opacity-100"

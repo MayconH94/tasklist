@@ -1,18 +1,36 @@
-import { ChartColumn, StickyNote } from "lucide-react";
+import { ChartColumn, Menu, StickyNote, X } from "lucide-react";
 import { formatLong } from "../lib/dates";
 
 const USER_INITIAL = "M";
 
 // Barra do topo. No Electron (Aula 14) ela vira a barra da janela: "app-drag"
 // permite arrastar a janela por aqui e "app-no-drag" deixa os botões clicáveis.
-export default function Titlebar({ emoji, today, onStats, onScratch }) {
+export default function Titlebar({
+  emoji,
+  today,
+  onStats,
+  onScratch,
+  onMenu,
+  menuOpen,
+}) {
   return (
-    <header className="app-drag flex h-14 shrink-0 items-center justify-between gap-4 border-b border-line bg-sidebar px-6">
-      <span className="font-display text-xl font-semibold tracking-tight">
-        ZenTask {emoji}
-      </span>
+    <header className="app-drag flex h-14 shrink-0 items-center justify-between gap-3 border-b border-line bg-sidebar px-4 sm:px-6">
+      <div className="flex min-w-0 items-center gap-2">
+        <button
+          onClick={onMenu}
+          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={menuOpen}
+          aria-controls="menu-lateral"
+          className="app-no-drag -ml-1.5 grid size-9 shrink-0 place-items-center rounded-full text-muted transition-colors hover:bg-ink/10 hover:text-ink md:hidden"
+        >
+          {menuOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+        <span className="truncate font-display text-lg font-semibold tracking-tight sm:text-xl">
+          ZenTask {emoji}
+        </span>
+      </div>
 
-      <div className="flex items-center gap-3.5">
+      <div className="flex shrink-0 items-center gap-2 sm:gap-3.5">
         <span className="hidden text-[13px] text-muted sm:inline">
           {formatLong(today)}
         </span>
@@ -34,7 +52,7 @@ export default function Titlebar({ emoji, today, onStats, onScratch }) {
         </button>
         <div
           aria-hidden="true"
-          className="grid size-9 place-items-center rounded-full border border-line bg-raised font-display text-sm font-semibold"
+          className="grid size-8 place-items-center rounded-full border border-line bg-raised font-display text-sm font-semibold sm:size-9"
         >
           {USER_INITIAL}
         </div>

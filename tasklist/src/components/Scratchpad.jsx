@@ -34,7 +34,7 @@ export default function Scratchpad({ open, onClose }) {
       role="dialog"
       aria-label="Rascunho rápido"
       inert={!open}
-      className={`fixed bottom-0 right-0 top-14 z-40 flex w-80 flex-col gap-3 border-l border-line bg-surface p-4 shadow-2xl transition-transform duration-200 ${
+      className={`fixed bottom-0 right-0 top-14 z-40 flex w-80 max-w-full flex-col gap-3 border-l border-line bg-surface p-4 shadow-2xl transition-transform duration-200 ${
         open ? "translate-x-0" : "translate-x-full"
       }`}
     >
